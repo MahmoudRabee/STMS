@@ -1,8 +1,11 @@
 const express = require('express');
-const router = express.Router();
-``
+const path = require('path');
 
-router.get("/" , async ( req , res ) => {
-    setInterval(callback, delay);
-    res.send(movies);
+const router = express.Router();
+
+router.get('/', async (req, res) => {
+    const viewPath = path.resolve(__dirname, '../view/control.html');
+    res.sendFile(viewPath);
 });
+
+module.exports = router;

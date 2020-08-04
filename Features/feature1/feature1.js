@@ -1,9 +1,18 @@
-function getTimes (){
+function carsNumber() {
     const roadA1 = getRandomInt(0, 100);
     const roadA2 = getRandomInt(0, 100);
     const roadB1 = getRandomInt(0, 100);
     const roadB2 = getRandomInt(0, 100);
 
+    return {
+        roadA1,
+        roadA2,
+        roadB1,
+        roadB2
+    };
+}
+
+function getTimes(roadA1, roadA2, roadB1, roadB2) {
     // number of cars in lines A&B
     const carsInLineA = roadA1 + roadA2;
     const carsInLineB = roadB1 + roadB2;
@@ -22,4 +31,5 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (newMax - newMin)) + newMin;
 }
 
-module.exports = getTimes;
+module.exports.getTimes = getTimes;
+module.exports.carsNumber = carsNumber;
