@@ -3,6 +3,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const control = require('./routes/control');
 const feature1 = require('./Features/feature1/feature1');
+const DB = require('./Modules/Database');
 
 const app = express();
 const server = http.createServer(app);

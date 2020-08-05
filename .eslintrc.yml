@@ -13,6 +13,7 @@ rules: {
   linebreak-style: ["error", "windows"],
   indent: ["error", 4],
   "no-use-before-define": ["error", { "functions": false, "classes": true }],
-  no-plusplus: ["error", { "allowForLoopAfterthoughts": true }]
+  no-plusplus: ["error", { "allowForLoopAfterthoughts": true }],
+  "comma-dangle": ["error", "never"]
   
 }
