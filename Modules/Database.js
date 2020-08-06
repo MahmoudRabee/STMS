@@ -1,5 +1,3 @@
-
-
     var mysql = require('mysql');
 
     var con = mysql.createConnection({
@@ -55,27 +53,40 @@ const Create_STMS_DataBase=() =>
      connection();
      var sql = "CREATE TABLE traffic (traffic_ID int primary key not null , street_ID int ,squere_ID int, number_of_vehicles int)";
       con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Table created");
+        if (err){
+          console.log(err.message);
+         } else {
+          console.log("Table created");      
+         }
+
 
       });
     var sql = "CREATE TABLE squere (squere_ID int primary key not null  ,  n_vehicle_S1 int ,  n_vehicle_S2 int ,  n_vehicle_S3 int ,  n_vehicle_S4 int, foreign key (squere_ID) references traffic(traffic_ID) )";
       con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Table created");
+        if (err){
+          console.log(err.message);
+         } else {
+          console.log("Table created");      
+         }
 
       });
     var sql = "CREATE TABLE vehicle (vehicle_ID int primary key not null  ,vehicle_State boolean ,  traffic_ID int ,Alaem boolean, foreign key (traffic_ID) references traffic(traffic_ID) )";
       con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Table created");
+        if (err){
+          console.log(err.message);
+         } else {
+          console.log("Table created");      
+         }
 
       });
 
     var sql = "CREATE TABLE Account (vehicle_ID int primary key not null  ,Owner_ID int  not null,Owner_name varchar(15) not null ,Password varchar(15) not null, phone_Number int not null,If_Stolen boolean , Last_Seen int ,foreign key (vehicle_ID) references vehicle(vehicle_ID) )";
       con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Table created");
+        if (err){
+          console.log(err.message);
+         } else {
+          console.log("Table created");      
+         }
 
       });
 

@@ -1,7 +1,9 @@
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
+const bodyParser = require('body-parser');
 const control = require('./routes/control');
+const user = require('./routes/user');
 const feature1 = require('./Features/feature1/feature1');
 const DB = require('./Modules/Database');
 
@@ -12,10 +14,14 @@ const io = socketio(server);
 // const http = require('http').createServer(app);
 
 // connect to database
+// DB.Create_STMS_DataBase();
+// DB.Create_STMS_tables();
 
 // Routers
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/control', control);
+app.use('/user', user);
 
 // Open socket connection
 io.on('connection', (socket) => {
