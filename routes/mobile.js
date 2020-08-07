@@ -5,22 +5,18 @@ const hash = require('../Modules/hash');
 
 const router = express.Router();
 
-router.get('/signup', async (req, res) => {
-    const viewPath = path.resolve(__dirname, '../view/signup.html');
-    res.sendFile(viewPath);
-});
-
-router.post ('/signup', async(req, res) => {
+router.post('/signup', async (req, res) => {
+    
     // 1- validate input
-    const { error } = user.validate(req.body);
-    if (error) return res.send(error.details[0].message);
-
+    // const { error } = user.validate(req.body);
+    // if (error) return res.send(error.details[0].message);
+    
     const name = req.body.name;
-    const password = req.body.password;
-    const email = req.body.email;
-    const phone_number = req.body.phone_number;
-    const car_number = req.body.car_number;
     const ssid = req.body.ssid;
+    const carNumber = req.body.car_number;
+    const phone = req.body.phone_number;
+    const email = req.body.email;
+    const password = req.body.password;
     
     // 2- validate input from database
 
@@ -29,17 +25,21 @@ router.post ('/signup', async(req, res) => {
 
     // 4-save an account to database
     // 5- go to 'successful registeration' page
-    res.send(req.body);
+
+    const body = {
+        name: "Mahmoud",
+        ssid: ssid,
+        carNumber: carNumber,
+        phone: phone,
+        email: "ahmed",
+        password: password
+    };
+
+    res.send(body);
 });
 
-router.get('/login', async (req, res) => {
-    const viewPath = path.resolve(__dirname, '../view/login.html');
-    res.sendFile(viewPath);
-});
-
-router.post ('/login', async(req, res) => {
-
-        const password = req.body.password;
+router.post('/login', async (req, res) => {
+    const password = req.body.password;
         const email = req.body.email;
 
         // 2- validate email from database
@@ -52,6 +52,6 @@ router.post ('/login', async(req, res) => {
         // 4- go to 'successful registeration' page
       
         res.send(req.body);
-    });
+});
 
 module.exports = router;

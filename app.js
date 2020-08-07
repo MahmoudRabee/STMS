@@ -4,6 +4,7 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const control = require('./routes/control');
 const user = require('./routes/user');
+const mobile = require('./routes/mobile');
 const feature1 = require('./Features/feature1/feature1');
 const DB = require('./Modules/Database');
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/control', control);
 app.use('/user', user);
+app.use('/mobile', mobile);
 
 // Open socket connection
 io.on('connection', (socket) => {
