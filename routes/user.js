@@ -11,6 +11,10 @@ router.get('/signup', async (req, res) => {
 });
 
 router.post ('/signup', async(req, res) => {
+//test 
+console.log(req.body);
+
+
     // 1- validate input
     const { error } = user.validate(req.body);
     if (error) return res.send(error.details[0].message);
