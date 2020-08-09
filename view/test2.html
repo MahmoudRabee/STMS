@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/form.css">
+</head>
+
+<body>
+    <!--start upper bar-->
+    <div class="upper_bar">
+        <div class="container">
+            <div class="row">
+            <!--    <div class="col-sm">
+                    TMS, to make our life more save
+                </div> -->
+
+                <div class="col-sm">
+                    <div class="B">
+                        <button id="sign-up" type="button" class="btn btn-light" onclick="Signup_fuction()">ٍSign up</button>
+                    </div>
+
+                    <div class="B">
+                        <button id="sign-in" type="button" class="btn btn-light" onclick="Signin_fuction()" style="visibility: hidden">ٍSign in </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End upper bar-->
+    <!--navbar-->
+ <!--   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="main-nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main-nav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>-->
+    <!--start form-->
+    <div class="form_g">
+        <form id="Signup_f" style="visibility: hidden" action="http://localhost:3000/user/signup" method="POST">
+
+            <!---------Name------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Name</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder=" name">
+            </div>
+            <!---------Password------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput" placeholder=" password">
+            </div>
+            <!---------Email------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">E-mail</label>
+                <input type="email" class="form-control" id="formGroupExampleInput" placeholder=" e-mail">
+            </div>
+            <!---------id------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">National id number</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder=" national id number">
+            </div>
+            <!---------Phone_number------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Phone number</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="phone number">
+            </div>
+            <!---------Car number------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Car number</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="car number">
+            </div>
+            <!--input buttons-->
+            <div class="buttons">
+                <!--    <input id="Sign-in" type="button" value="Sign in" class="btn btn-outline-dark btn-lg" onclick="Signin_fuction()">-->
+
+                <input type="submit" class="btn btn-outline-dark btn-lg" value="Submit">
+            </div>
+        </form>
+    </div>
+    <!--sign in form-->
+
+    <div class="form_g">
+        <form class="F-signin" id="Signin_f" action="http://localhost:3000/user/login" method="POST">
+            <h2>Sign in using email</h2>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Email</label>
+                <input type="email" class="form-control" id="formGroupExampleInput" placeholder="email">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Password</label>
+                <input type="password" class="form-control" id="formGroupExampleInput2" placeholder="password">
+            </div>
+            <!--input buttons-->
+            <div class="buttons">
+                <!--   <input type="button" value="Sign in" class="btn btn-outline-dark btn-lg" onclick="Signin_fuction()"> -->
+
+                <input type="submit" class="btn btn-outline-dark btn-lg" value="Submit">
+            </div>
+        </form>
+    </div>
+    <!------------------Buttons----------->
+
+    <script>
+        function Signup_fuction() {
+            document.getElementById("Signup_f").style.visibility = "visible";
+            document.getElementById("Signin_f").style.visibility = "hidden";
+            document.getElementById("sign-up").style.visibility=
+                "hidden";
+            document.getElementById("sign-in").style.visibility=
+                "visible";
+
+        }
+
+        function Signin_fuction() {
+            document.getElementById("Signin_f").style.visibility = "visible";
+            document.getElementById("Signup_f").style.visibility = "hidden";
+            document.getElementById("sign-in").style.visibility=
+                "hidden";
+            document.getElementById("sign-up").style.visibility=
+                "visible";
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

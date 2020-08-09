@@ -16,9 +16,27 @@
             <label>Car number:</label>
             <span><input type="text" name="car_number"></span> <!--text not number-->
                 <br><br>
+                <label>SSID:</label>
+                <span><input type="text" name="ssid"></span> <!--number-->
+                    <br><br>
         
             <input  type="submit" value="Register" onclick="reg()">
             
             </form>
+
+            {{#if success}}
+            <h3>successful registration</h3>
+            <script>
+                setTimeout(function () {
+                    window.location = "http://localhost:3000/user/login";
+                }, 3000)
+            </script>
+            {{else}}
+            <ul class="people_list">
+                {{#each errors}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
     </body>
 </html>

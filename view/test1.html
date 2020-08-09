@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <style>
+        .form_ {
+            position: absolute;
+            left: 30%;
+            top: 20%;
+        }
+        .buttons{
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="buttons">
+        <button id="sign-in" onclick="Signin_fuction()">Sign in</button>
+    </div>
+    <div class="buttons">
+        <button id="sign-up" onclick="Signup_fuction()">Sign up</button>
+    </div>
+    <!--Signup form-->
+    <div class="form_">
+        <form action="http://localhost:3000/user/signup" method="POST" style="visibility: hidden" id="Signup_f">
+            <label>Name:</label>
+            <span><input type="text" name="name"></span>
+            <br><br>
+            <label>Password:</label>
+            <span><input type="password" name="password"></span>
+            <br><br>
+            <label>Email:</label>
+            <span><input type="email" name="email"></span>
+            <br><br>
+            <label>Phone number:</label>
+            <span><input type="tel" name="phone_number"></span>
+            <br><br>
+            <label>Car number:</label>
+            <span><input type="text" name="car_number"></span>
+            <!--text not number-->
+            <br><br>
+
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    <div  class="form_">
+        <form action="http://localhost:3000/user/login" method="POST" id="Signin_f">
+            <h3>sign in using email</h3>
+            <label>Name:</label>
+            <span><input type="text" name="email"></span>
+            <br><br>
+            <label>Password:</label>
+            <span><input type="password" name="password"></span>
+            <br><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    
+     <script>
+        function Signup_fuction() {
+            document.getElementById("Signup_f").style.visibility = "visible";
+            document.getElementById("Signin_f").style.visibility = "hidden";
+            document.getElementById("sign-up").style.visibility=
+                "hidden";
+            document.getElementById("sign-in").style.visibility=
+                "visible";
+
+        }
+
+        function Signin_fuction() {
+            document.getElementById("Signin_f").style.visibility = "visible";
+            document.getElementById("Signup_f").style.visibility = "hidden";
+            document.getElementById("sign-in").style.visibility=
+                "hidden";
+            document.getElementById("sign-up").style.visibility=
+                "visible";
+        }
+    </script>
+</body>
+
+</html>

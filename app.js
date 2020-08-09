@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
@@ -11,16 +12,19 @@ const DB = require('./Modules/Database');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-// const io = require('socket.io')(http);
-// const http = require('http').createServer(app);
 
+// path for template 
+const viewPath = path.join(__dirname,'./view');
 // connect to database
-// DB.Create_STMS_DataBase();
-// DB.Create_STMS_tables();
-
-// Routers
+DB.connection();
+//
+// middleware
+app.set('view engine', 'hbs');
+app.set('views', viewPath);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routers
 app.use('/control', control);
 app.use('/user', user);
 app.use('/mobile', mobile);
