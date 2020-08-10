@@ -14,11 +14,13 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // path for template 
+const staticPath = path.join(__dirname, './public')
 const viewPath = path.join(__dirname,'./view');
 // connect to database
 DB.connection();
-//
+
 // middleware
+app.use(express.static(staticPath));
 app.set('view engine', 'hbs');
 app.set('views', viewPath);
 app.use(express.json());

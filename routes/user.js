@@ -7,11 +7,14 @@ const DB = require('../Modules/Database');
 const router = express.Router();
 
 router.get('/signup', async (req, res) => {
-    const viewPath = path.resolve(__dirname, '../view/signup');
-    res.render(viewPath);
+    // const viewPath = path.resolve(__dirname, '../view/signup');
+    res.render('signup');
 });
 
 router.post ('/signup', async(req, res) => {
+// temp code 
+// res.send(req.body)
+
     let errorMessage = [];
 
     const name = req.body.name;
@@ -55,12 +58,14 @@ router.post ('/signup', async(req, res) => {
 
 
 router.get('/login', async (req, res) => {
-    const viewPath = path.resolve(__dirname, '../view/login.html');
-    res.sendFile(viewPath);
+    // const viewPath = path.resolve(__dirname, '../view/login.html');
+    // res.sendFile(viewPath);
+    res.render('login');
 });
 
 router.post ('/login', async(req, res) => {
-
+// temp code 
+// res.send(req.body)
     const password = req.body.password;
     const email = req.body.email;
 

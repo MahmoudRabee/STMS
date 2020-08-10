@@ -1,0 +1,24 @@
+.form_g{
+    width: 300px;
+    padding: 30px;
+  /*  position:absolute;
+    right:50px ;
+    top: 100px;*/
+}
+.F-signin{
+    position: absolute;
+    top:120px;
+}
+.B{
+    position: absolute;
+    right: 30px;
+}
+
+/***********************************************/
+
+.upper_bar{
+    background-color: black;
+    color:darkred;
+    padding: 10px;
+    height: 50px;
+}
