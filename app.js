@@ -9,6 +9,7 @@ const mobile = require('./routes/mobile');
 const feature1 = require('./Features/feature1/feature1');
 const DB = require('./Modules/Database');
 
+
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -31,11 +32,11 @@ app.use('/control', control);
 app.use('/user', user);
 app.use('/mobile', mobile);
 
-// Open socket connection
+// Open socket connection to send data to control page 
 io.on('connection', (socket) => {
     console.log('connected');
 
-    setInterval(snedCarsNumber, 60000);
+    setInterval(snedCarsNumber, 1000);
 
     function snedCarsNumber() {
         const {
@@ -43,7 +44,7 @@ io.on('connection', (socket) => {
             roadA2,
             roadB1,
             roadB2
-        } = feature1.carsNumber();
+        } = feature1.car.carsNumber;
         socket.emit('car numbers', {
             a1: roadA1,
             a2: roadA2,

@@ -3,13 +3,13 @@ const path = require('path');
 const user = require('../Modules/user');
 const hash = require('../Modules/hash');
 const DB = require('../Modules/Database');
+const feature1 = require('../Features/feature1/feature1');
 
 const router = express.Router();
 
 router.get('/square', async (req, res) => {
-    const obj = {a1: 4, a2: 3, b1:5, b2:5};
-    const jsonObj = JSON.stringify(obj);
-    res.send(jsonObj);
+    const carsNumber = feature1.car.carsNumber;
+    res.send(carsNumber);
 
 });
 

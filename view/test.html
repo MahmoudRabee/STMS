@@ -1,51 +1,22 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-   <link rel="stylesheet" href="css/form.css">
-
-
-</head>
-
 <body>
-    <div class="form_g">
-        <form id="Signup_f" style="visibility=visible" action="http://localhost:3000/user/signup" method="POST">
-            <!---------Name------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">Name</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Input your name">
-            </div>
-            <!---------Password------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">Password</label>
-                <input type="password" class="form-control" id="formGroupExampleInput" placeholder="Password">
-            </div>
-            <!---------Email------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">Email</label>
-                <input type="email" class="form-control" id="formGroupExampleInput" placeholder="Email">
-            </div>
-            <!---------id------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">National id number</label>
-                <input type="number" class="form-control" id="formGroupExampleInput" placeholder=" national id number">
-            </div>
-            <!---------Phone_number------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">Phone number</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="phone number">
-            </div>
-            <!---------Car number------->
-            <div class="form-group">
-                <label for="formGroupExampleInput">Car number</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="car number">
-            </div>
-            <div class="buttons">
-                <input type="submit" class="btn btn-outline-dark btn-lg" onclick="Signup_fuction()" value="Sign up">
-            </div>
-        </form>
-    </div>
-</body>
 
+<p>When you submit the form, a function is triggered which alerts some text.</p>
+
+<form  onsubmit="myFunction()">
+  Enter name: <input type="text" name="fname">
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+function myFunction() {
+    const response = await fetch("http://localhost:3000/user/test", {
+    method: 'POST',
+    body: JSON.stringify({ })
+  })
+}
+</script>
+
+</body>
 </html>
