@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const path = require('path');
 const user = require('../Modules/user');
@@ -7,6 +8,15 @@ const feature1 = require('../Features/feature1/feature1');
 
 const router = express.Router();
 
+router.get('/reportStolen', async (req, res) => {
+    // console.log(req.body);
+    // console.log(req.params);
+    console.log(req.headers.authorization);
+    // console.log(req.header());
+    res.
+    res.send('heelo');
+});
+
 router.get('/square', async (req, res) => {
     const carsNumber = feature1.car.carsNumber;
     res.send(carsNumber);
@@ -14,11 +24,14 @@ router.get('/square', async (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
+    console.log(req.body);
+    const result = {};
     // 1- validate input
     const { error } = user.validate(req.body);
     if (error){
         // handle errors later --------------------------
-        return res.send(error.details[0].message);
+        result.message = error.details[0].message;
+        return res.send(result);
     }
 
     const name = req.body.name;
@@ -28,7 +41,7 @@ router.post('/signup', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password; 
     // 2- validate input from database
-    const errors = await DB.new_User(ssid, email, phone_number, car_number);
+    const errors = await DB.new_User(ssid, email, phone, carNumber);
     if(errors.length != 0) {
         // handle errors later ------------------------------------
         return res.send(errors);
@@ -37,35 +50,46 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await hash.hashPassword(password);
     
     // 4-save an account to database
-    await DB.Insert_New_Account(ssid,name,email,phone_number,hashedPassword,car_number);
+    await DB.Insert_New_Account(ssid,name,email,phone,hashedPassword,carNumber);
     // 5- go to 'successful registeration' page -------------------------------
     res.send('Successful Signup');
-    
 });
 
 router.post('/login', async (req, res) => {
+    let result = {};
+
     const password = req.body.password;
     const email = req.body.email;
 
     // 2- validate email from database
-    const validEmail = await DB.isValidEmail(email);
+    const validEmail = await DB.Is_Email_Exist(email);
     if(!validEmail){
         // handle error ----------------------
-        res.send("Email Not found");
+        // res.send("Email Not found");
+        result.message = 'Email Not found';
+        return res.send(result);
     }
     // 3- validate password
     // get pass of this Email and check if valid
-    const hashedPassword = await Password_Of_Login(email);
+    const hashedPassword = await DB.Password_Of_Login(email);
     // compare password
     const validPassword = await hash.isValidPassword(password, hashedPassword);
     if(!validPassword){
-        // handle error ----------------------
-        res.send("wrong password");
+        // handle error ------------------------
+        result.message = 'wrong password';
+        return res.send(result);
+        // res.send("wrong password");
     }
 
     // 4- go to 'successful registeration' page
-    
-    res.send('Successful Login');
+    // res.send('Successful Login');
+    const token = jwt.sign({ email: email },'myKey');
+    result.message = 'Successful Login';
+    result.car_number = 'name';    
+    result.name = 'name';
+    result.token = token;    
+    res.send(result);
+
 });
 
 module.exports = router;

@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+const { Module } = require('module');
+const { assert } = require('console');
 
 // Create connection configuration I
 var con = mysql.createConnection({
@@ -71,7 +73,7 @@ const Create_STMS_tables=()=>
 
      });
 
-   var sql = "CREATE TABLE Account (vehicle_ID int primary key not null  ,Owner_ID varchar(14)  not null,Owner_name varchar(50) not null ,Password varchar(255) not null, phone_Number varchar(11) not null,Email varchar(50) not null,If_Stolen boolean , Last_Seen int  )";
+   var sql = "CREATE TABLE Account (vehicle_ID int primary key not null  ,Owner_ID varchar(14)  not null,Owner_name varchar(50) not null ,Password varchar(255) not null, phone_Number varchar(11) not null,Email varchar(50) not null,If_Stolen boolean default false , Last_Seen int  )";
      con.query(sql, function (err, result) {
        if (err) throw err;
        console.log("Account Table created");
@@ -138,6 +140,7 @@ function Is_Owner_ID_Exist(ID_owner)
 /********************************/
 function Insert_New_Account (ownerID, name, Email, phone, password, ID)
 {
+  connection();
   return new Promise(function(resolve, reject) {
       var sql = "INSERT INTO Account (vehicle_ID,owner_ID,owner_name,password,phone_Number,Email) VALUES ("+ID+",'"+ownerID+"' ,'"+name+"','"+password+"','"+phone+"','"+Email+"')";
       con.query(sql, function (err, result) {
@@ -160,17 +163,16 @@ async function new_User (ownerID, Email, phone, ID)
     if (phn==true) errors.push("This phone number is already exist !");
     let mail=await Is_Email_Exist(Email);
     if(mail==true) errors.push("This Email is already exist !");
-    console.log("errors: "+ errors);
 
     return errors;
 };
 
-/**************************/
+
 async function Excute_new_user(ownerID,name,Email,phone,password,ID)
 {
   console.log(await new_User(ownerID,name,Email,phone,password,ID));
 }
-
+/*************************** */
 function Password_Of_Login(mail) {
   // connection();
   return new Promise(function(resolve, reject) {
@@ -195,6 +197,158 @@ async function createDataBaseAndTables() {
   const test2 = await Create_STMS_DataBase();
   const test = await Create_STMS_tables();
 }
+
+/***************************************** */
+
+function User_Information (vehicle_number)
+{
+
+  return new Promise(function(resolve, reject) {
+    var sql ="SELECT vehicle_ID,owner_name,phone_Number,Email FROM Account WHERE vehicle_ID ="+vehicle_number;
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        
+        resolve(rows[0]);
+    });  
+  });  
+
+}
+async function Excute_User_Information(vehicle_number)
+{
+  let information= await User_Information(vehicle_number);
+  console.log(information.vehicle_ID);
+  console.log(information.owner_name);
+  console.log(information.phone_Number);
+  console.log(information.Email);
+}
+/********************************** */
+
+function report_Stolen_vehicle(vehicle_num)
+{
+  //connection();
+  return new Promise(function(resolve, reject) {
+    var sql ="UPDATE Account SET If_Stolen =true where vehicle_ID="+vehicle_num;
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        resolve('report of stolen car is done!');
+    });  
+  });
+
+}
+
+function report_Stolen_vehicle_founded(vehicle_num)
+{
+  //connection();
+  return new Promise(function(resolve, reject) {
+    var sql ="UPDATE Account SET If_Stolen =false where vehicle_ID="+vehicle_num;
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        resolve('report of found car is done!');
+    });  
+  });
+
+}
+
+function Is_this_vehicle_stolen(vehicle_num)
+{
+  return new Promise(function(resolve, reject) {
+    var sql ="SELECT If_Stolen FROM Account WHERE vehicle_ID ="+vehicle_num;
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        
+        resolve(rows[0].If_Stolen);
+    });  
+  });
+
+}
+
+function Stolen_vehicle_default()
+{
+ // connection();
+  return new Promise(function(resolve, reject) {
+    var sql ="UPDATE Account SET If_Stolen =false ";
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        resolve('done!');
+    });  
+  });
+
+}
+async function execute_Stolen_vehicle_dafault()
+{
+  console.log(await Stolen_vehicle_default());
+}
+
+
+async function execute_report_Stolen_vehicle(vehicle_num)
+{
+  console.log(await report_Stolen_vehicle(vehicle_num) );
+
+}
+
+async function execute_report_Stolen_vehicle_founded(vehicle_num)
+{
+  console.log(await report_Stolen_vehicle_founded(vehicle_num) );
+
+}
+
+async function execute_Is_this_vehicle_stolen(vehicle_num)
+{
+  console.log(await Is_this_vehicle_stolen(vehicle_num) );
+
+}
+
+/**************************************** */
+
+
+function return_vehicle_number(mail)
+{
+  
+    // connection();
+    return new Promise(function(resolve, reject) {
+      var sql ="SELECT vehicle_ID FROM Account WHERE Email ='"+mail+"'";
+      con.query(sql, function (err, rows) {
+        if (err) throw err;
+        else 
+          resolve(rows[0].vehicle_ID);
+      });  
+    });  
+  
+  
+
+}
+
+async function Execute_return_vehicle_num(mail)
+{
+ console.log( await return_vehicle_number(mail));
+}
+
+
+module.exports.Execute_return_vehicle_num=Execute_return_vehicle_num;
+module.exports.return_vehicle_number=return_vehicle_number;
+
+module.exports.execute_Stolen_vehicle_dafault=execute_Stolen_vehicle_dafault;
+module.exports.execute_Is_this_vehicle_stolen=execute_Is_this_vehicle_stolen;
+module.exports.execute_report_Stolen_vehicle_founded=execute_report_Stolen_vehicle_founded;
+module.exports.execute_report_Stolen_vehicle=execute_report_Stolen_vehicle
+module.exports.report_Stolen_vehicle=report_Stolen_vehicle;
+module.exports.report_Stolen_vehicle_founded=report_Stolen_vehicle_founded;
+module.exports.Is_this_vehicle_stolen=Is_this_vehicle_stolen;
+module.exports.Stolen_vehicle_default=Stolen_vehicle_default;
+
+
+
+
+
+
+module.exports.Excute_User_Information=Excute_User_Information;
+module.exports.User_Information=User_Information;
+
 
 module.exports.excute_Pass_of_Login=Excute_Pass_of_Login;
 module.exports.Password_Of_Login=Password_Of_Login;

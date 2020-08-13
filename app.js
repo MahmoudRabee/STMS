@@ -1,3 +1,4 @@
+const cookieSession = require('cookie-session');
 const path = require('path');
 const express = require('express');
 const http = require('http');
@@ -8,7 +9,8 @@ const user = require('./routes/user');
 const mobile = require('./routes/mobile');
 const feature1 = require('./Features/feature1/feature1');
 const DB = require('./Modules/Database');
-
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +23,12 @@ const viewPath = path.join(__dirname,'./view');
 DB.connection();
 
 // middleware
+app.use(cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2']
+  }));
+app.use(cors());
+app.use(cookieParser());
 app.use(express.static(staticPath));
 app.set('view engine', 'hbs');
 app.set('views', viewPath);
