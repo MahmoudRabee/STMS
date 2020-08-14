@@ -10,6 +10,13 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/reportFounded', async(req, res) =>{
+    
+    const carID  =req.body.car_id;
+    const Stolen = await DB.Is_this_vehicle_stolen(req.body.car_id);
+    if(Stolen){
+        const result = await DB.report_Stolen_vehicle_founded(carID);
+    }
+    res.redirect('http://localhost:3000/control/stolenCars');
 });
 
 router.get('/stolenCars', async(req, res) => {
