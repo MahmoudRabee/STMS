@@ -8,16 +8,15 @@ const {auth, authLogin} = require('../middleware/auth');
 
 
 const router = express.Router();
-
-// router.get('/signup', async (req, res) => {
-//     // const viewPath = path.resolve(__dirname, '../view/signup');
-//     res.render('signup');
-// });
+router.get('/signup', async (req, res) => {
+    // const viewPath = path.resolve(__dirname, '../view/signup');
+    res.render('signup');
+});
 
 router.post ('/signup', async(req, res) => {
 // temp code 
-console.log(req.body);
-res.send(req.body);
+// console.log(req.body);
+// res.send(req.body);
 
     let errorMessage = [];
 
@@ -59,7 +58,47 @@ res.send(req.body);
     res.render('signup',{success: true});
 });
 
+router.post ('/login', async(req, res) => {
+    // temp code 
+    // res.send(req.body)
+        const password = req.body.password;
+        const email = req.body.email;
+    
+        // 2- validate email from database
+        const validEmail = await DB.Is_Email_Exist(email);
+        if(!validEmail){
+            // handle error ----------------------
+            return res.send("Email Not found");
+        }
+        // 3- validate password
+        // get pass of this Email and check if valid
+        const hashedPassword = await DB.Password_Of_Login(email);
+        // compare password
+        const validPassword = await hash.isValidPassword(password, hashedPassword);
+        if(!validPassword){
+            // handle error ----------------------
+            return res.send("wrong password");
+        }
+    
+        // 4- go to 'successful registeration' page
+        const carID = await DB.return_vehicle_number(email) //--------------------------------------------------
+        console.log(carID);
+        const token = jwt.sign({ carID: carID },'HSRWas-763R');
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + 86400000),
+            secure: false, // set to true if your using https
+            httpOnly: true,
+          });
+          return res.redirect('http://localhost:3000/user/profile');
+});
 
+router.post('/reportStolen', async(req, res) =>{
+})
+
+router.post('/logout', async(req, res) =>{
+    res.cookie('token', '');
+    res.redirect('http://localhost:3000/user');
+})
 
 router.get('/', authLogin, async (req, res) => {
     // const viewPath = path.resolve(__dirname, '../view/login.html');
@@ -67,44 +106,10 @@ router.get('/', authLogin, async (req, res) => {
     res.render('login');
 });
 
-
-router.post ('/login', async(req, res) => {
-// temp code 
-// res.send(req.body)
-    const password = req.body.password;
-    const email = req.body.email;
-
-    // 2- validate email from database
-    const validEmail = await DB.Is_Email_Exist(email);
-    if(!validEmail){
-        // handle error ----------------------
-        return res.send("Email Not found");
-    }
-    // 3- validate password
-    // get pass of this Email and check if valid
-    const hashedPassword = await DB.Password_Of_Login(email);
-    // compare password
-    const validPassword = await hash.isValidPassword(password, hashedPassword);
-    if(!validPassword){
-        // handle error ----------------------
-        return res.send("wrong password");
-    }
-
-    // 4- go to 'successful registeration' page
-    const carID = await DB.return_vehicle_number(email) //--------------------------------------------------
-    console.log(carID);
-    const token = jwt.sign({ carID: carID },'HSRWas-763R');
-    res.cookie('token', token, {
-        expires: new Date(Date.now() + 86400000),
-        secure: false, // set to true if your using https
-        httpOnly: true,
-      });
-      return res.redirect('http://localhost:3000/user/profile');
-    });
-
 router.get('/profile', auth, (req, res) => {
-    res.send("ًWelcome in ypur profile");
+    res.send("ًWelcome in your profile");
 });
+
 
 // ----------------- test routes -----------------------------
 

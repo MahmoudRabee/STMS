@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/stolen-car.css">
+</head>
+
+<body>
+    <!--start upper bar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+            </ul>
+        </div>
+    </nav>
+    <h1>Restored car</h1>
+    <label>Car id</label>
+    <div class="sub_">
+        <input type="button" value="submit" onclick="sub()" class="btn btn-outline-dark btn-lg">
+    </div>
+    <!--table-->
+    <table id="T.S.C" class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Car id</th>
+                <th scope="col">Contact</th>
+            </tr>
+        </thead>
+    </table>
+   
+    <script>
+        // append row to the HTML table
+
+        var tbl = document.getElementById('T.S.C');
+        
+
+        // insert table cells to the new row
+        for (var j = 0; j < {{Number}}; j++) {
+            // append table row
+
+            row = tbl.insertRow(tbl.rows.length);
+            var x = tbl.rows.length;
+            
+            for (var i = 0; i < tbl.rows[0].cells.length; i++) {
+                createCell(row.insertCell(i), 0, 'table');
+            }
+        }
+        var user = {{{data}}};
+        var user2 = JSON.stringify(user);
+                
+        for(let i = 1; i <= {{Number}}; i++){
+          tbl.rows[i].cells[0].textContent=user[i-1][1];  
+          tbl.rows[i].cells[1].textContent=user[i-1][2];  
+          tbl.rows[i].cells[2].textContent=user[i-1][0];  
+        }
+
+        
+
+
+        // create div element and append to the table cell
+        function createCell(cell, text, style) {
+            //create element
+            var div = document.createElement('div');
+            // it where data represent
+            var txt = document.createTextNode(text);
+
+            // append text node to the div
+            div.appendChild(txt);
+            div.setAttribute('class', style);
+            div.setAttribute('className', style);
+            // append div to the table cell
+            cell.appendChild(div);
+        }
+        //Restored car////
+        var form = document.createElement('FORM');
+        var input = document.createElement('Input');
+
+        form.setAttribute('class', 'form-group');
+
+        input.setAttribute('type', 'text');
+        input.setAttribute('class', 'form-control');
+        input.setAttribute('placeholder', 'Car id');
+        input.setAttribute('name', 'car id');
+        ///form action and method  
+        form.setAttribute('action', 'http://localhost:3000/user/signup'); ///action////
+        form.setAttribute('method', 'POST');
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+            //submit and delete row
+        function sub() {
+            var check = input.value;
+
+            if (check.length == 6) {
+                for (var d = 1; d < tbl.rows.length;d++) {
+                    if (check == tbl.rows[d].cells[1].textContent) {
+                        del(d);
+                        console.log(check);
+                    }
+                  }
+                    form.submit();
+                }
+            
+            // form.submit();
+            else {               
+                alert("Car id must be 6 numbers");
+            }
+        }
+        //delet row
+        function del(row_) {
+            
+            document.getElementById('T.S.C').deleteRow(row_);
+        }
+    </script>
+
+</body>
+
+</html>

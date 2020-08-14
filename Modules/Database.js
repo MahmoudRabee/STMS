@@ -140,7 +140,6 @@ function Is_Owner_ID_Exist(ID_owner)
 /********************************/
 function Insert_New_Account (ownerID, name, Email, phone, password, ID)
 {
-  connection();
   return new Promise(function(resolve, reject) {
       var sql = "INSERT INTO Account (vehicle_ID,owner_ID,owner_name,password,phone_Number,Email) VALUES ("+ID+",'"+ownerID+"' ,'"+name+"','"+password+"','"+phone+"','"+Email+"')";
       con.query(sql, function (err, result) {
@@ -163,15 +162,11 @@ async function new_User (ownerID, Email, phone, ID)
     if (phn==true) errors.push("This phone number is already exist !");
     let mail=await Is_Email_Exist(Email);
     if(mail==true) errors.push("This Email is already exist !");
+    console.log("errors: "+ errors);
 
     return errors;
 };
 
-
-async function Excute_new_user(ownerID,name,Email,phone,password,ID)
-{
-  console.log(await new_User(ownerID,name,Email,phone,password,ID));
-}
 /*************************** */
 function Password_Of_Login(mail) {
   // connection();
@@ -187,19 +182,12 @@ function Password_Of_Login(mail) {
 
 }
 
-async function Excute_Pass_of_Login(mail)
-{
-
-    console.log(await Password_Of_Login(mail));
-}
-
 async function createDataBaseAndTables() {
   const test2 = await Create_STMS_DataBase();
   const test = await Create_STMS_tables();
 }
 
 /***************************************** */
-
 function User_Information (vehicle_number)
 {
 
@@ -214,16 +202,8 @@ function User_Information (vehicle_number)
   });  
 
 }
-async function Excute_User_Information(vehicle_number)
-{
-  let information= await User_Information(vehicle_number);
-  console.log(information.vehicle_ID);
-  console.log(information.owner_name);
-  console.log(information.phone_Number);
-  console.log(information.Email);
-}
-/********************************** */
 
+/********************************** */
 function report_Stolen_vehicle(vehicle_num)
 {
   //connection();
@@ -279,36 +259,10 @@ function Stolen_vehicle_default()
   });
 
 }
-async function execute_Stolen_vehicle_dafault()
-{
-  console.log(await Stolen_vehicle_default());
-}
-
-
-async function execute_report_Stolen_vehicle(vehicle_num)
-{
-  console.log(await report_Stolen_vehicle(vehicle_num) );
-
-}
-
-async function execute_report_Stolen_vehicle_founded(vehicle_num)
-{
-  console.log(await report_Stolen_vehicle_founded(vehicle_num) );
-
-}
-
-async function execute_Is_this_vehicle_stolen(vehicle_num)
-{
-  console.log(await Is_this_vehicle_stolen(vehicle_num) );
-
-}
 
 /**************************************** */
-
-
 function return_vehicle_number(mail)
 {
-  
     // connection();
     return new Promise(function(resolve, reject) {
       var sql ="SELECT vehicle_ID FROM Account WHERE Email ='"+mail+"'";
@@ -318,50 +272,40 @@ function return_vehicle_number(mail)
           resolve(rows[0].vehicle_ID);
       });  
     });  
-  
-  
-
 }
 
-async function Execute_return_vehicle_num(mail)
+function return_stolen_vehicles()
 {
- console.log( await return_vehicle_number(mail));
+  return new Promise(function(resolve, reject) {
+    var sql ="SELECT  vehicle_ID FROM Account WHERE If_Stolen = true";
+    con.query(sql, function (err, rows) {
+      if (err) throw err;
+      else 
+        resolve(rows);
+      
+    });  
+  }); 
+
 }
 
-
-module.exports.Execute_return_vehicle_num=Execute_return_vehicle_num;
+module.exports.return_stolen_vehicles=return_stolen_vehicles;
 module.exports.return_vehicle_number=return_vehicle_number;
 
-module.exports.execute_Stolen_vehicle_dafault=execute_Stolen_vehicle_dafault;
-module.exports.execute_Is_this_vehicle_stolen=execute_Is_this_vehicle_stolen;
-module.exports.execute_report_Stolen_vehicle_founded=execute_report_Stolen_vehicle_founded;
-module.exports.execute_report_Stolen_vehicle=execute_report_Stolen_vehicle
 module.exports.report_Stolen_vehicle=report_Stolen_vehicle;
 module.exports.report_Stolen_vehicle_founded=report_Stolen_vehicle_founded;
 module.exports.Is_this_vehicle_stolen=Is_this_vehicle_stolen;
 module.exports.Stolen_vehicle_default=Stolen_vehicle_default;
 
-
-
-
-
-
-module.exports.Excute_User_Information=Excute_User_Information;
 module.exports.User_Information=User_Information;
 
-
-module.exports.excute_Pass_of_Login=Excute_Pass_of_Login;
 module.exports.Password_Of_Login=Password_Of_Login;
-module.exports.Excute_new_user=Excute_new_user;
-
 module.exports.new_User=new_User;
 module.exports.Is_Owner_ID_Exist=Is_Owner_ID_Exist;
 module.exports.Is_Email_Exist=Is_Email_Exist;
 module.exports.Is_plate_Exist=Is_plate_Exist;
 module.exports.Is_Phone_Exist=Is_Phone_Exist;
- module.exports.connection=connection;
- module.exports.Create_STMS_DataBase=Create_STMS_DataBase;
- module.exports.Create_STMS_tables=Create_STMS_tables;
- module.exports.createDataBaseAndTables=createDataBaseAndTables;
- module.exports.Insert_New_Account=Insert_New_Account;
- //module.exports.connection_creation=connection_creation;
+module.exports.connection=connection;
+module.exports.Create_STMS_DataBase=Create_STMS_DataBase;
+module.exports.Create_STMS_tables=Create_STMS_tables;
+module.exports.createDataBaseAndTables=createDataBaseAndTables;
+module.exports.Insert_New_Account=Insert_New_Account;

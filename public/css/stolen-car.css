@@ -1,0 +1,43 @@
+        table {
+            width: 40px;
+            position: absolute;
+            left: 10px;
+        }
+
+        .table {
+            width: 250px;
+        }
+
+        body span {
+            position: absolute;
+            top: 10px;
+        }
+
+        .collapse navbar-collapse {
+            position: absolute;
+            left: 50px;
+        }
+        .form-group {
+            position: absolute;
+            right: 90px;
+            top: 44%;
+        }
+        h1 {
+            position: absolute;
+            right: 85px;
+            top: 25%;
+            font-size: 60px;
+        }
+
+        label {
+            position: absolute;
+            right: 24%;
+            top: 44%;
+            font-size: 25px;
+            font-weight: 400;
+        }
+        .sub_{
+            position: absolute;
+            top: 55%;
+            right: 7%;
+        }
