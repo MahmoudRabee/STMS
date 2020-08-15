@@ -163,5 +163,4 @@ router.get('/deletesession', async (req, res) => {
     res.send(req.cookies);
 });
 
-
 module.exports = router;
