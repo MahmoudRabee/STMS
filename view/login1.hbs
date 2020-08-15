@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="upper_bar">
+        <div class="container">
+            <div class="row">
+                <!--    <div class="col-sm">
+                    TMS, to make our life more save
+                </div> -->
+
+                <div class="col-sm">
+                    <button id="sign-in" type="button" class="btn btn-light" onclick="Signin_fuction()" style="font-size: 20px;top:2px">Sign in</button>
+                    
+                    <button id="sign-up" type="button" class="btn btn-light" onclick="Signup_fuction()" style="font-size: 20px;top:2px">Sign up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--start form-->
+
+
+    <div class="form_g">
+        <form id="Signup_f" style="visibility: hidden" action="http://localhost:3000/user/signup" method="POST">
+
+            <!---------Name------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Name</label>
+                <input type="text" class="form-control"  placeholder=" name" name="name">
+            </div>
+            <!---------Password------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Password</label>
+                <input type="password" class="form-control"  placeholder=" password" name='password'>
+            </div>
+            <!---------Email------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">E-mail</label>
+                <input type="email" class="form-control"  placeholder=" e-mail" name='email'>
+            </div>
+            <!---------id------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">National id number</label>
+                <input type="text" class="form-control"  placeholder=" national id number" name="ssid">
+            </div>
+            <!---------Phone_number------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Phone number</label>
+                <input type="text" class="form-control"  placeholder="phone number" name="phone_number">
+            </div>
+            <!---------Car number------->
+            <div class="form-group">
+                <label for="formGroupExampleInput">Car number</label>
+                <input type="text" class="form-control"  placeholder="car number" name="car_number">
+            </div>
+            <!--input buttons-->
+            <div class="buttons">
+                <input type="submit" class="btn btn-outline-dark btn-lg" value="Submit">
+            </div>
+            {{#if errorSignup}}
+            <h3>Errors</h3>
+            <ul class="people_list">
+                {{#each errors}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </form>
+        
+    </div>
+    <!--sign in form-->
+
+    <div class="form_g">
+        <form class="F-signin" id="Signin_f" action="http://localhost:3000/user/login" method="POST">
+            <h2>Sign in using email</h2>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Email</label>
+                <input type="email" class="form-control" id="E-mail" placeholder="email" name="email">
+
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Password</label>
+                <input type="password" class="form-control" placeholder="password" name='password'>
+            </div>
+            <!--input buttons-->
+            <div class="buttons">
+                <input type="submit" class="btn btn-outline-dark btn-lg" value="Submit">
+            </div>
+                {{#if errorLogin}}
+            <h3>Errors</h3>
+            <ul class="people_list">
+                {{#each errors}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+        </form>
+    </div>
+    <!------------------SCRIPT------------------->
+
+    <script>
+        function Signup_fuction() {
+            document.getElementById("Signup_f").style.visibility = "visible";
+            document.getElementById("Signin_f").style.visibility = "hidden";
+        }
+
+        function Signin_fuction() {
+            document.getElementById("Signin_f").style.visibility = "visible";
+            document.getElementById("Signup_f").style.visibility = "hidden";
+        }
+
+        const errorLogin = {{errorLogin}};
+        const errorSignup = {{errorSignup}};
+        if(errorLogin){
+            document.getElementById("Signin_f").style.visibility = "visible";
+            document.getElementById("Signup_f").style.visibility = "hidden";
+        } else if (errorSignup) {
+            document.getElementById("Signup_f").style.visibility = "visible";
+            document.getElementById("Signin_f").style.visibility = "hidden";
+        }
+    </script>
+</body>
+
+</html>

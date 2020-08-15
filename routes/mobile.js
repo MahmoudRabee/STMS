@@ -5,19 +5,31 @@ const user = require('../Modules/user');
 const hash = require('../Modules/hash');
 const DB = require('../Modules/Database');
 const feature1 = require('../Features/feature1/feature1');
+const { authMobile } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/reportStolen', async (req, res) => {
-    // console.log(req.body);
-    // console.log(req.params);
-    console.log(req.headers.authorization);
-    // console.log(req.header());
-    res.
-    res.send('heelo');
+router.get('/reportStolen', authMobile, async (req, res) => {
+    const stolen = await DB.Is_this_vehicle_stolen(req.carID);
+    if(stolen){
+        return res.send("This car is Already reported as a stolen car");
+    }
+    const report = await DB.report_Stolen_vehicle(req.carID);
+    res.send(`Car with palte number ${req.carID} is reported as stolen car.`);
+
 });
 
-router.get('/square', async (req, res) => {
+router.get('/isCarFounded', authMobile, async (req, res) => {
+    const stolen = await DB.Is_this_vehicle_stolen(req.carID);
+    if(stolen){
+        return res.send("Sorry, your car is not founded yet 😔");
+    } else {
+        return res.send("congatilations, We found your car 💪💪");
+    }
+
+});
+
+router.get('/square', authMobile, async (req, res) => {
     const carsNumber = feature1.car.carsNumber;
     res.send(carsNumber);
 
@@ -83,13 +95,16 @@ router.post('/login', async (req, res) => {
 
     // 4- go to 'successful registeration' page
     // res.send('Successful Login');
-    const token = jwt.sign({ email: email },'myKey');
+   
+    const carID = await DB.return_vehicle_number(email);
+    const userDate =await DB.User_Information(carID);
+    console.log(userDate);
+    const token = jwt.sign({ carID: carID },'HSRWas-763R');
     result.message = 'Successful Login';
-    result.car_number = 'name';    
-    result.name = 'name';
+    result.car_number = carID;    
+    result.name = userDate.owner_name;
     result.token = token;    
     res.send(result);
-
 });
 
 module.exports = router;

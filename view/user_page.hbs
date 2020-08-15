@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<style>
+    span{
+        color: red;
+    }
+</style>
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/user_page.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+            STMS
+       
+        <div class="upper_bar">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="#">About</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <h3 id="hp">Your car restored
+        .If you see this announcement please press OK
+    </h3>
+    <h3 id="not" style="visibility: hidden">Your car <span>NOT</span> restored
+        .If you see this announcement please press OK
+    </h3>
+
+
+    <script>
+        var lo = document.getElementById('hp');
+        lo.setAttribute('style', 'visibility :hidden');
+        var not=document.getElementById('not');
+        not.setAttribute('style', 'visibility :hidden');
+
+        //////////report button///////////
+        var form_R = document.createElement('FORM');
+        var report = document.createElement('INPUT');
+        report.setAttribute('type', 'submit');
+        report.setAttribute('class', 'btn btn-outline-dark btn-lg');
+        report.setAttribute('value', 'Report')
+        report.setAttribute('onclick', 'display()');
+        report.setAttribute('name', 'report');
+        form_R.setAttribute('action', 'http://localhost:3000/user/signup'); ///action////
+        form_R.setAttribute('method', 'POST');
+
+        form_R.appendChild(report);
+        document.body.appendChild(form_R);
+
+        ////////////Sign out button/////////////
+        var form_l = document.createElement('FORM');
+        var Sign_out = document.createElement('INPUT');
+        Sign_out.setAttribute('type', 'submit');
+        Sign_out.setAttribute('class', 'btn btn-outline-dark btn-lg');
+        Sign_out.setAttribute('value', 'Sign out');
+        Sign_out.setAttribute('name', 'Sign out');
+
+        form_l.setAttribute('action', 'http://localhost:3000/user/signup'); ///action////
+        form_l.setAttribute('method', 'POST');
+
+        form_l.appendChild(Sign_out);
+        document.body.appendChild(form_l);
+
+        /////////////////check button/////////
+
+        var form_c = document.createElement('FORM');
+        var check = document.createElement('INPUT');
+        check.setAttribute('type', 'submit');
+        check.setAttribute('class', 'btn btn-outline-dark btn-lg');
+        check.setAttribute('value', 'Check');
+        check.setAttribute('style', 'visibility :hidden');
+        check.setAttribute('onclick','che_ck()');
+
+        form_c.setAttribute('action', 'http://localhost:3000/user/signup'); ///action////
+        form_c.setAttribute('method', 'POST');
+
+        form_c.appendChild(check);
+        document.body.appendChild(form_c);
+
+        ///////////////OK Button//////////////////
+        var button = document.createElement('BUTTON');
+        button.setAttribute('class', 'btn btn-outline-dark btn-lg');
+        button.style.visibility = 'hidden';
+        button.setAttribute('onclick', 'delet()');
+        var text = document.createTextNode("OK");
+        button.appendChild(text);
+
+        document.body.appendChild(button);
+
+        function display() {
+            check.style.visibility = 'visible';
+
+        }
+        ///////function for delete OK,h3 and check
+        function delet() {
+            lo.style.visibility = "hidden";
+        
+            button.style.visibility = "hidden";
+            not.style.visibility="hidden";
+        }
+
+       //////////////check data from backend///////////
+       function che_ck()
+        {
+        var h = 9;
+        if (h == 5) {
+            lo.style.visibility = "visible";
+            button.style.visibility = 'visible';
+            check.style.visibility="hidden";
+            
+        }
+        else{
+            not.style.visibility="visible";
+            button.style.visibility = 'visible';
+        }
+        }
+        /*   
+        setAttributes(lo, {"color": "red", "height": "100%"});
+       
+   function setAttributes(el, attrs) {
+  for(var key in attrs) {
+    el.setAttribute(key, attrs[key]);
+  }
+}*/
+    </script>
+</body>
+
+</html>

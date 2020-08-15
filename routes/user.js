@@ -46,7 +46,7 @@ router.post ('/signup', async(req, res) => {
     
 
     if(errorMessage.length != 0) {
-        return res.render('signup',{success: false , errors: errorMessage});
+        return res.render('login1',{errorSignup:true,errorLogin:false , errors: errorMessage});
     }
 
     // 3- hash the password
@@ -55,20 +55,39 @@ router.post ('/signup', async(req, res) => {
     // 4-save an account to database
     await DB.Insert_New_Account(ssid,name,email,phone_number,hashedPassword,car_number);
     // 5- go to 'successful registeration' page---------------------------
-    res.render('signup',{success: true});
+    res.redirect('http://localhost:3000/user/profile');
 });
 
 router.post ('/login', async(req, res) => {
     // temp code 
     // res.send(req.body)
+    let errorMessage = [];
         const password = req.body.password;
         const email = req.body.email;
     
+        if(email == 'admin@admin.com'){
+            if(password == "admin"){
+                const token = jwt.sign({ isAdmin: true},'HSRWas-763R');
+                res.cookie('token', token, {
+                    expires: new Date(Date.now() + 86400000),
+                    secure: false, // set to true if your using https
+                    httpOnly: true,
+                  });
+                  return res.redirect('http://localhost:3000/control');
+            } else {
+                // return res.send("Wrong password");
+                errorMessage.push("Wrong password");
+                return res.render('login1',{errorSignup:false,errorLogin:true , errors: errorMessage});
+            }
+        }
         // 2- validate email from database
         const validEmail = await DB.Is_Email_Exist(email);
         if(!validEmail){
             // handle error ----------------------
-            return res.send("Email Not found");
+            // return res.send("Email Not found");
+            errorMessage.push("Email Not found");
+            return res.render('login1',{errorSignup:false,errorLogin:true , errors: errorMessage});
+            
         }
         // 3- validate password
         // get pass of this Email and check if valid
@@ -77,13 +96,16 @@ router.post ('/login', async(req, res) => {
         const validPassword = await hash.isValidPassword(password, hashedPassword);
         if(!validPassword){
             // handle error ----------------------
-            return res.send("wrong password");
+            // return res.send("wrong password");
+            errorMessage.push("Wrong password");
+            return res.render('login1',{errorSignup:false,errorLogin:true, errors: errorMessage});
+            
         }
     
         // 4- go to 'successful registeration' page
         const carID = await DB.return_vehicle_number(email) //--------------------------------------------------
-        console.log(carID);
-        const token = jwt.sign({ carID: carID },'HSRWas-763R');
+
+        const token = jwt.sign({ isAdmin: false, carID: carID },'HSRWas-763R');
         res.cookie('token', token, {
             expires: new Date(Date.now() + 86400000),
             secure: false, // set to true if your using https
@@ -103,17 +125,18 @@ router.post('/logout', async(req, res) =>{
 router.get('/', authLogin, async (req, res) => {
     // const viewPath = path.resolve(__dirname, '../view/login.html');
     // res.sendFile(viewPath);
-    res.render('login');
+    res.render('login1');
 });
 
 router.get('/profile', auth, (req, res) => {
-    res.send("ًWelcome in your profile");
+    res.send(`Your car ID is ${req.carID}`);
 });
 
 
 // ----------------- test routes -----------------------------
 
-router.get('/reverse', auth, (req, res) => {
+router.post('/reverse', (req, res) => {
+    // console.log(req.body);
     res.send("ًWelcome in homepage");
 });
 

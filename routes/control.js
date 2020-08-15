@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const DB = require('../Modules/Database');
-
+const { authAdmin } = require('../middleware/auth');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', authAdmin, async (req, res) => {
     const viewPath = path.resolve(__dirname, '../view/control.html');
     res.sendFile(viewPath);
 });
@@ -19,7 +19,7 @@ router.post('/reportFounded', async(req, res) =>{
     res.redirect('http://localhost:3000/control/stolenCars');
 });
 
-router.get('/stolenCars', async(req, res) => {
+router.get('/stolenCars', authAdmin, async(req, res) => {
     const cars = await DB.return_stolen_vehicles();
     const Number = cars.length;
     let data = [];
@@ -30,10 +30,9 @@ router.get('/stolenCars', async(req, res) => {
         data[i][0] = owner.phone_Number;
         data[i][1] = owner.owner_name;
         data[i][2] = cars[i].vehicle_ID;
-        console.log(data[i]);
+
     }
-    // const x = await DB.User_Information(cars[0].vehicle_ID);
-    console.log(data);
+
     res.render('STolen-car', {Number:Number, data:JSON.stringify(data)});
 });
 
