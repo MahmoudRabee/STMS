@@ -22,13 +22,16 @@ router.get('/reportStolen', authMobile, async (req, res) => {
 router.get('/isCarFounded', authMobile, async (req, res) => {
     const stolen = await DB.Is_this_vehicle_stolen(req.carID);
     if(stolen){
-        return res.send("Sorry, your car is not founded yet 😔");
+        return res.send("Sorry, your car is not founded yet.");
     } else {
-        return res.send("congatilations, We found your car 💪💪");
+        return res.send("congratulations, We found your car.");
     }
 
 });
 
+router.get('/viewViolations', authMobile, async (req, res) => {
+
+});
 router.get('/square', authMobile, async (req, res) => {
     const carsNumber = feature1.car.carsNumber;
     res.send(carsNumber);
@@ -77,7 +80,6 @@ router.post('/login', async (req, res) => {
     const validEmail = await DB.Is_Email_Exist(email);
     if(!validEmail){
         // handle error ----------------------
-        // res.send("Email Not found");
         result.message = 'Email Not found';
         return res.send(result);
     }
@@ -90,11 +92,10 @@ router.post('/login', async (req, res) => {
         // handle error ------------------------
         result.message = 'wrong password';
         return res.send(result);
-        // res.send("wrong password");
+
     }
 
     // 4- go to 'successful registeration' page
-    // res.send('Successful Login');
    
     const carID = await DB.return_vehicle_number(email);
     const userDate =await DB.User_Information(carID);

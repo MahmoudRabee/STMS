@@ -48,8 +48,9 @@ function authLogin(req, res, next) {
     if(token == ''){
         return next();
     }
+    // verify token
     try {
-        const carID = jwt.verify(token, 'HSRWas-763R');
+        const {carID} = jwt.verify(token, 'HSRWas-763R');
         return res.redirect('http://localhost:3000/user/profile');
     } catch (error) {
         return next();

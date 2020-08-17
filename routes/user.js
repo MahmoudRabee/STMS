@@ -5,18 +5,14 @@ const user = require('../Modules/user');
 const hash = require('../Modules/hash');
 const DB = require('../Modules/Database');
 const {auth, authLogin} = require('../middleware/auth');
-
-
+const feature1 = require('../Features/feature1/feature1');
+ 
 const router = express.Router();
 router.get('/signup', async (req, res) => {
-    // const viewPath = path.resolve(__dirname, '../view/signup');
     res.render('signup');
 });
 
 router.post ('/signup', async(req, res) => {
-// temp code 
-// console.log(req.body);
-// res.send(req.body);
 
     let errorMessage = [];
 
@@ -31,14 +27,12 @@ router.post ('/signup', async(req, res) => {
     const { error } = user.validate(req.body);
     if (error){
         // handle errors later --------------------------
-        // return res.send(error.details[0].message);
         errorMessage.push(error.details[0].message);
     } else {
         // 2- validate input from database
     const errors = await DB.new_User(ssid, email, phone_number, car_number);
         if(errors.length != 0) {
             // handle errors later ------------------------------------
-            // return res.send(errors);
             errorMessage = [...errorMessage, ...errors];
         }
     }
@@ -46,7 +40,7 @@ router.post ('/signup', async(req, res) => {
     
 
     if(errorMessage.length != 0) {
-        return res.render('login1',{errorSignup:true,errorLogin:false , errors: errorMessage});
+        return res.render('login33',{errorSignup:true,errorLogin:false , errors: errorMessage});
     }
 
     // 3- hash the password
@@ -77,7 +71,7 @@ router.post ('/login', async(req, res) => {
             } else {
                 // return res.send("Wrong password");
                 errorMessage.push("Wrong password");
-                return res.render('login1',{errorSignup:false,errorLogin:true , errors: errorMessage});
+                return res.render('login33',{errorSignup:false,errorLogin:true , errors: errorMessage});
             }
         }
         // 2- validate email from database
@@ -86,7 +80,7 @@ router.post ('/login', async(req, res) => {
             // handle error ----------------------
             // return res.send("Email Not found");
             errorMessage.push("Email Not found");
-            return res.render('login1',{errorSignup:false,errorLogin:true , errors: errorMessage});
+            return res.render('login33',{errorSignup:false,errorLogin:true , errors: errorMessage});
             
         }
         // 3- validate password
@@ -96,9 +90,8 @@ router.post ('/login', async(req, res) => {
         const validPassword = await hash.isValidPassword(password, hashedPassword);
         if(!validPassword){
             // handle error ----------------------
-            // return res.send("wrong password");
             errorMessage.push("Wrong password");
-            return res.render('login1',{errorSignup:false,errorLogin:true, errors: errorMessage});
+            return res.render('login33',{errorSignup:false,errorLogin:true, errors: errorMessage});
             
         }
     
@@ -117,29 +110,39 @@ router.post ('/login', async(req, res) => {
 router.post('/reportStolen', async(req, res) =>{
 })
 
-router.post('/logout', async(req, res) =>{
+router.get('/logout', async(req, res) =>{
     res.cookie('token', '');
     res.redirect('http://localhost:3000/user');
 })
 
 router.get('/', authLogin, async (req, res) => {
     // const viewPath = path.resolve(__dirname, '../view/login.html');
-    // res.sendFile(viewPath);
-    res.render('login1');
+    res.render('login33');
 });
 
 router.get('/profile', auth, (req, res) => {
     res.send(`Your car ID is ${req.carID}`);
 });
 
-
-// ----------------- test routes -----------------------------
-
-router.post('/reverse', (req, res) => {
-    // console.log(req.body);
-    res.send("ًWelcome in homepage");
+router.get('/getTime', (req, res) => {
+    const carsNumber = feature1.car.carsNumber;
+    const { LineATime } = feature1.getTimes(carsNumber.roadA1, carsNumber.roadA2, carsNumber.roadB1, carsNumber.roadB2);
+    console.log('hhhhh');
+    res.send(String(LineATime));
 });
 
+router.get('/isFounded', (req, res) => {
+
+});
+router.get('/ShowViolations', (req, res) => {
+
+});
+// ----------------- test routes -----------------------------
+
+router.get('/reverse', (req, res) => {
+    console.log(req.params);
+    res.send("ًWelcome in homepage");
+});
 
 router.get('/session', async (req, res) => {
     const token = jwt.sign({id :1234}, 'mysecretKey', {expiresIn:'1h'});

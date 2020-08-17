@@ -114,17 +114,19 @@
             document.getElementById("Signin_f").style.visibility = "visible";
             document.getElementById("Signup_f").style.visibility = "hidden";
         }
-
-        const errorLogin = {{errorLogin}};
-        const errorSignup = {{errorSignup}};
-        if(errorLogin){
-            document.getElementById("Signin_f").style.visibility = "visible";
-            document.getElementById("Signup_f").style.visibility = "hidden";
-        } else if (errorSignup) {
-            document.getElementById("Signup_f").style.visibility = "visible";
-            document.getElementById("Signin_f").style.visibility = "hidden";
-        }
     </script>
+    {{#if errorLogin}}
+    <script>
+        document.getElementById("Signin_f").style.visibility = "visible";
+        document.getElementById("Signup_f").style.visibility = "hidden";
+    </script>      
+    {{/if}}
+    {{#if errorSignup}}
+    <script>
+        document.getElementById("Signup_f").style.visibility = "visible";
+        document.getElementById("Signin_f").style.visibility = "hidden"
+    </script>
+    {{/if}}
+    
 </body>
-
 </html>

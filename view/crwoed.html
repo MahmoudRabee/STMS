@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="an">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Smart traffic manegment system">
+    <title>Crwoding rate</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/crwoed.css">
+</head>
+<body>
+    <!--Start navigation bar-->
+        <div class="navbar">
+            <div class="container">
+                <div class="ourname">
+                    <h3>STMS</h3>
+                </div>
+                <div class="links">
+                    <a href="Home.html">Home</a>
+                    <a href="crwoed.html">Crowding Rate</a>
+                    <a href="stolen.html">Stolen Cars</a>
+                    <a>Violations</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!--End navigation bar-->
+    <h2>Crowding Rate</h2>
+        <table id="Crowding table" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Street 1</th>
+                    <th scope="col">Street 2</th>
+                    <th scope="col">Street 3</th>
+                    <th scope="col">Street 4</th>
+                    <th scope="col">Square rate</th>
+                </tr>
+            </thead>
+    </table>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        var trigger = true;
+        socket.on('car numbers', (message) => {
+        var {a1,a2,b1,b2} = message;
+      
+        var tbl = document.getElementById('Crowding table');
+        console.log(tbl.rows[0].cells.length);
+        row = tbl.insertRow(tbl.rows.length);
+            if(trigger){
+                for (var i = 0; i < tbl.rows[0].cells.length; i++) {
+                createCell(row.insertCell(i),0, 'table');
+                } 
+                trigger = false ;
+            }
+           
+        
+        function createCell(cell, text, style) {
+            //create element
+            var div = document.createElement('div');
+            // it where data represent
+            var txt = document.createTextNode(text);
+
+            // append text node to the div
+            div.appendChild(txt);
+            div.setAttribute('class', style);
+            div.setAttribute('className', style);
+            // append div to the table cell
+            cell.appendChild(div);
+        }
+        document.body.appendChild(tbl);
+          tbl.rows[1].cells[0].textContent=a1;  
+          tbl.rows[1].cells[1].textContent=a2;  
+          tbl.rows[1].cells[2].textContent=b1; 
+          tbl.rows[1].cells[3].textContent=b2;  
+ 
+            var cars;
+            cars = a1 + a2 + b1 + b2;
+            if (cars => 130 && cars < 270) {
+               tbl.rows[1].cells[4].textContent= "medium";
+            } else if (cars < 130) {
+               tbl.rows[1].cells[4].textContent= "low";
+            } else {
+                tbl.rows[1].cells[4].textContent= "High";
+            }
+    });
+        
+    </script>
+
+</body>
+
+
+</html>

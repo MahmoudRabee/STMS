@@ -5,6 +5,10 @@ const { authAdmin } = require('../middleware/auth');
 const router = express.Router();
 
 router.get('/', authAdmin, async (req, res) => {
+    const viewPath = path.resolve(__dirname, '../view/crwoed.html');
+    res.sendFile(viewPath);
+});
+router.get('/control', authAdmin, async (req, res) => {
     const viewPath = path.resolve(__dirname, '../view/control.html');
     res.sendFile(viewPath);
 });
@@ -34,6 +38,12 @@ router.get('/stolenCars', authAdmin, async(req, res) => {
     }
 
     res.render('STolen-car', {Number:Number, data:JSON.stringify(data)});
+});
+router.get('/ShowAllViolatios', authAdmin, async(req, res) => {
+    
+});
+router.post('/deleteViolation', authAdmin, async(req, res) => {
+    
 });
 
 

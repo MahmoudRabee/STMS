@@ -35,6 +35,7 @@
                 const socket = io();
                 socket.on('car numbers', (message) => {
                 var {a1,a2,b1,b2}=message;
+                
                 var cars;
 
                         document.getElementById("line_1").innerHTML=a1;
