@@ -12,6 +12,7 @@ const router = express.Router();
 router.get('/reportStolen', authMobile, async (req, res) => {
     const stolen = await DB.Is_this_vehicle_stolen(req.carID);
     if(stolen){
+        // res.status(200).json
         return res.send("This car is Already reported as a stolen car");
     }
     const report = await DB.report_Stolen_vehicle(req.carID);
@@ -99,12 +100,14 @@ router.post('/login', async (req, res) => {
    
     const carID = await DB.return_vehicle_number(email);
     const userDate =await DB.User_Information(carID);
+    const stolen = await DB.Is_this_vehicle_stolen(req.carID);
     console.log(userDate);
     const token = jwt.sign({ carID: carID },'HSRWas-763R');
     result.message = 'Successful Login';
     result.car_number = carID;    
     result.name = userDate.owner_name;
-    result.token = token;    
+    result.token = token;
+    result.isStolen = stolen;   
     res.send(result);
 });
 

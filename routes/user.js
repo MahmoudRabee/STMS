@@ -107,7 +107,8 @@ router.post ('/login', async(req, res) => {
           return res.redirect('http://localhost:3000/user/profile');
 });
 
-router.post('/reportStolen', async(req, res) =>{
+router.post('/reportStolen', auth, async(req, res) =>{
+
 })
 
 router.get('/logout', async(req, res) =>{
@@ -131,17 +132,17 @@ router.get('/getTime', (req, res) => {
     res.send(String(LineATime));
 });
 
-router.get('/isFounded', (req, res) => {
+router.get('/isFounded', auth, (req, res) => {
 
 });
-router.get('/ShowViolations', (req, res) => {
+router.get('/ShowViolations', auth, (req, res) => {
 
 });
 // ----------------- test routes -----------------------------
 
-router.get('/reverse', (req, res) => {
-    console.log(req.params);
-    res.send("ًWelcome in homepage");
+router.post('/reverse', (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
 });
 
 router.get('/session', async (req, res) => {

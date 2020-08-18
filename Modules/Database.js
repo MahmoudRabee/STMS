@@ -1,6 +1,4 @@
 var mysql = require('mysql');
-const { Module } = require('module');
-const { assert } = require('console');
 
 // Create connection configuration I
 var con = mysql.createConnection({
@@ -182,10 +180,7 @@ async function new_User (ownerID, Email, phone, ID)
 };
 
 
-async function Excute_new_user(ownerID,name,Email,phone,password,ID)
-{
-  console.log(await new_User(ownerID,name,Email,phone,password,ID));
-}
+
 /*************************** */
 function Password_Of_Login(mail) {
   // connection();
@@ -201,19 +196,12 @@ function Password_Of_Login(mail) {
 
 }
 
-async function Excute_Pass_of_Login(mail)
-{
-
-    console.log(await Password_Of_Login(mail));
-}
-
 async function createDataBaseAndTables() {
   const test2 = await Create_STMS_DataBase();
   const test = await Create_STMS_tables();
 }
 
 /***************************************** */
-
 function User_Information (vehicle_number)
 {
 
@@ -226,21 +214,11 @@ function User_Information (vehicle_number)
         resolve(rows[0]);
     });  
   });  
+}
 
-}
-async function Excute_User_Information(vehicle_number)
-{
-  let information= await User_Information(vehicle_number);
-  console.log(information.vehicle_ID);
-  console.log(information.owner_name);
-  console.log(information.phone_Number);
-  console.log(information.Email);
-}
 /********************************** */
-
 function report_Stolen_vehicle(vehicle_num)
 {
-  //connection();
   return new Promise(function(resolve, reject) {
     var sql ="UPDATE Account SET If_Stolen =true where vehicle_ID="+vehicle_num;
     con.query(sql, function (err, rows) {
@@ -249,7 +227,6 @@ function report_Stolen_vehicle(vehicle_num)
         resolve('report of stolen car is done!');
     });  
   });
-
 }
 
 function report_Stolen_vehicle_founded(vehicle_num)
@@ -277,12 +254,10 @@ function Is_this_vehicle_stolen(vehicle_num)
         resolve(rows[0].If_Stolen);
     });  
   });
-
 }
 
 function Stolen_vehicle_default()
 {
- // connection();
   return new Promise(function(resolve, reject) {
     var sql ="UPDATE Account SET If_Stolen =false ";
     con.query(sql, function (err, rows) {
@@ -293,57 +268,19 @@ function Stolen_vehicle_default()
   });
 
 }
-async function execute_Stolen_vehicle_dafault()
-{
-  console.log(await Stolen_vehicle_default());
-
-
-}
-
-
-async function execute_report_Stolen_vehicle(vehicle_num)
-{
-  console.log(await report_Stolen_vehicle(vehicle_num) );
-
-}
-
-async function execute_report_Stolen_vehicle_founded(vehicle_num)
-{
-  console.log(await report_Stolen_vehicle_founded(vehicle_num) );
-
-}
-
-async function execute_Is_this_vehicle_stolen(vehicle_num)
-{
-  console.log(await Is_this_vehicle_stolen(vehicle_num) );
-
-}
 
 /**************************************** */
-
-
 function return_vehicle_number(mail)
-{
-  
-    // connection();
+{ 
     return new Promise(function(resolve, reject) {
       var sql ="SELECT vehicle_ID FROM Account WHERE Email ='"+mail+"'";
       con.query(sql, function (err, rows) {
         if (err) throw err;
         else 
           resolve(rows[0].vehicle_ID);
-      });  
-    });  
-  
-  
-
+      });
+    });
 }
-
-async function Execute_return_vehicle_num(mail)
-{
- console.log( await return_vehicle_number(mail));
-}
-
 
 function return_stolen_vehicles()
 {
@@ -354,27 +291,12 @@ function return_stolen_vehicles()
       if (err) throw err;
       else 
         resolve(rows);
-      
     });  
   }); 
-
 }
-async function execute_return_stolen_vehicles()
-{
-  let data=await return_stolen_vehicles();
- 
-  let i;
-  for(i=0;i<data.length;i++)
-  {
-    console.log(data[i].vehicle_ID);
-
-  }
-}
-
 
 function  insert_violation_types(v_type,v_cost)
 {
-
   return new Promise(function(resolve, reject) {
     var sql = "INSERT INTO Violation_Type (violation_types,violation_cost) VALUES ('"+v_type+"',"+v_cost+" )";
     con.query(sql, function (err, result) {
@@ -383,10 +305,7 @@ function  insert_violation_types(v_type,v_cost)
         resolve("done!");
     });
   });
-
 }
-
-
 
  async function insert_new_violation(v_type,v_time,vehicle_num)
 {
@@ -480,9 +399,6 @@ function delete_Specefic_violation(vio_ID,vehicle_num)
     con.query(sql, function (err, rows) {
         if (err) throw err;
     });
-
-
-
 }
 
 function pay_violation_bill(vehicle_num)
@@ -501,11 +417,20 @@ function pay_violation_bill(vehicle_num)
       });
 
   });
-
 }
 
 
-
+function getAllCars() 
+{
+    return new Promise(function(resolve, reject) {
+        var sql ="SELECT vehicle_ID FROM Account";
+        con.query(sql, function (err, rows) {
+            if (err) throw err;
+            else 
+            resolve(rows);
+        });  
+    });  
+};
 
 module.exports.insert_violation_types = insert_violation_types;
 module.exports.insert_new_violation = insert_new_violation;
@@ -516,43 +441,24 @@ module.exports.select_violation_details = select_violation_details;
 module.exports.pay_violation_bill = pay_violation_bill;
 module.exports.delete_Specefic_violation = delete_Specefic_violation;
 
-
-module.exports.execute_return_stolen_vehicles=execute_return_stolen_vehicles;
 module.exports.return_stolen_vehicles=return_stolen_vehicles;
-
-module.exports.Execute_return_vehicle_num=Execute_return_vehicle_num;
 module.exports.return_vehicle_number=return_vehicle_number;
 
-module.exports.execute_Stolen_vehicle_dafault=execute_Stolen_vehicle_dafault;
-module.exports.execute_Is_this_vehicle_stolen=execute_Is_this_vehicle_stolen;
-module.exports.execute_report_Stolen_vehicle_founded=execute_report_Stolen_vehicle_founded;
-module.exports.execute_report_Stolen_vehicle=execute_report_Stolen_vehicle
 module.exports.report_Stolen_vehicle=report_Stolen_vehicle;
 module.exports.report_Stolen_vehicle_founded=report_Stolen_vehicle_founded;
 module.exports.Is_this_vehicle_stolen=Is_this_vehicle_stolen;
 module.exports.Stolen_vehicle_default=Stolen_vehicle_default;
-
-
-
-
-
-
-module.exports.Excute_User_Information=Excute_User_Information;
 module.exports.User_Information=User_Information;
+module.exports.getAllCars=getAllCars;
 
-
-module.exports.excute_Pass_of_Login=Excute_Pass_of_Login;
 module.exports.Password_Of_Login=Password_Of_Login;
-module.exports.Excute_new_user=Excute_new_user;
 module.exports.new_User=new_User;
-
 module.exports.Is_Owner_ID_Exist=Is_Owner_ID_Exist;
 module.exports.Is_Email_Exist=Is_Email_Exist;
 module.exports.Is_plate_Exist=Is_plate_Exist;
 module.exports.Is_Phone_Exist=Is_Phone_Exist;
- module.exports.connection=connection;
- module.exports.Create_STMS_DataBase=Create_STMS_DataBase;
- module.exports.Create_STMS_tables=Create_STMS_tables;
- module.exports.createDataBaseAndTables=createDataBaseAndTables;
- module.exports.Insert_New_Account=Insert_New_Account;
- //module.exports.connection_creation=connection_creation;
+module.exports.connection=connection;
+module.exports.Create_STMS_DataBase=Create_STMS_DataBase;
+module.exports.Create_STMS_tables=Create_STMS_tables;
+module.exports.createDataBaseAndTables=createDataBaseAndTables;
+module.exports.Insert_New_Account=Insert_New_Account;

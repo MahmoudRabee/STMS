@@ -42,10 +42,11 @@ app.use('/mobile', mobile);
 
 // Open socket connection to send data to control page 
 io.on('connection', (socket) => {
-    console.log('connected');
-
-    setInterval(snedCarsNumber, 1000);
-
+    console.log('connected socket');
+    
+    const socketInterval = setInterval(snedCarsNumber, 1000);
+    socket.on('disconnect', () => clearInterval(socketInterval))
+    
     function snedCarsNumber() {
         const {
             roadA1,

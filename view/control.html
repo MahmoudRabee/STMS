@@ -56,6 +56,10 @@
                         document.getElementById("rate").innerHTML="High";
                     }
                 });
+                window.addEventListener('beforeunload', () => {
+                    console.log('disconnect socket')
+                    socket.close()
+                })
 
                 
             function func1() {

@@ -29,7 +29,25 @@ async function deleteSingleViolation(code, carID) {
 async function deleteViolations(carID) {
     const result = await DB.pay_violation_bill(carID);
 }
- 
+
+async function addRandomViolations() {
+    const cars = await DB.getAllCars();
+    // add breakSignal violation to all cars 
+    for(let i = 0; i < cars.length; i++){
+        addViolation(breakSignal, cars[i].vehicle_ID);
+    }
+
+    // add opisitDirection violation to odd cars 
+    for(let i = 1; i < cars.length; i+=2){
+        addViolation(opisitDirection, cars[i].vehicle_ID);
+    }
+
+    // add speedLimit violation to evan cars 
+    for(let i = 0; i < cars.length; i+=2){
+        addViolation(speedLimit, cars[i].vehicle_ID);
+    }
+
+}
 
 module.exports.breakSignal=breakSignal;
 module.exports.opisitDirection=opisitDirection;
@@ -38,9 +56,11 @@ module.exports.addViolation=addViolation;
 module.exports.retriveVolationDetails=retriveVolationDetails;
 module.exports.deleteSingleViolation=deleteSingleViolation;
 module.exports.deleteViolations=deleteViolations;
+module.exports.addRandomViolations=addRandomViolations;
 
 
 // addViolation(breakSignal, 123454);
 // deleteViolations(123454);
 // retriveVolationDetails(123454);
 // deleteSingleViolation(10, 123454);
+// addRandomViolations();

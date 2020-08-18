@@ -3,9 +3,13 @@ const { connection } = require('../Modules/Database');
 const { car } = require('../Features/feature1/feature1');
 
 function auth(req, res, next) {
-    const token = req.cookies.token || '';
-    if(token == ''){
+    // const token = req.cookies.token || '';
+    const token = req.cookies.token;
+    // if(token == ''){
+    if(!token){
         return res.redirect('http://localhost:3000/user');
+        // return res.location('/user');
+
     }
     try {
         const { isAdmin } = jwt.verify(token, 'HSRWas-763R');
@@ -61,7 +65,10 @@ function authMobile(req, res, next) {
     const token = req.headers.authorization || '';
     console.log(token);
     if(token == ''){
-        return res.send('invalid token');
+        return res.status(401).json({
+            mesasge: 'invalid token'
+        })
+        // return res.send('invalid token');
     }
     try {
         const { carID }= jwt.verify(token, 'HSRWas-763R');
