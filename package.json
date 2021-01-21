@@ -28,6 +28,6 @@
     "jsonwebtoken": "^8.1.1",
     "lodash": "^4.17.19",
     "mysql": "^2.18.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   }
 }
